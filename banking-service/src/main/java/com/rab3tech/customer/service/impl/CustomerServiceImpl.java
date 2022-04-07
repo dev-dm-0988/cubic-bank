@@ -1,5 +1,10 @@
 package com.rab3tech.customer.service.impl;
 
+
+
+
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -34,7 +39,7 @@ public class CustomerServiceImpl implements  CustomerService{
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
-	private CustomerRepository customerRepo;
+	private CustomerRepository cRepository;
 	
 	
 	@Override
@@ -67,13 +72,39 @@ public class CustomerServiceImpl implements  CustomerService{
 
 	@Override
 	public CustomerVO getProfile(String email) {
-		Optional<Customer> optional=customerRepo.findByEmail(email);
+		Optional<Customer> optional=cRepository.findByEmail(email);
 		CustomerVO vo=new CustomerVO();
 		if (optional.isPresent()) {
 			Customer entity=optional.get();
 			BeanUtils.copyProperties(entity,vo );
 		}
 		return vo;
+	}
+
+
+	@Override
+	public String saveCustomerData(CustomerVO customerVO) {
+		String message= null;
+		Optional<Customer> optional= cRepository.findByEmail(customerVO.getEmail());
+		
+		if (optional.isPresent()) {
+			Customer entity= optional.get();
+			entity.setName(customerVO.getName());
+			entity.setAddress(customerVO.getAddress());
+			entity.setGender(customerVO.getGender());
+			entity.setQualification(customerVO.getQualification());
+			entity.setMobile(customerVO.getMobile());
+			entity.setJobTitle(customerVO.getJobTitle());
+			entity.setSsn(customerVO.getSsn());
+			entity.setFather(customerVO.getFather());
+			entity.setDob(customerVO.getDob());
+			entity.setDom(new Timestamp(new Date().getTime()));
+			cRepository.save(entity);
+			message="Information has been updated successfully.";
+		}else {
+			message="error: there is some issue in customer data update.";
+		}
+		return message;
 	}
 
 }
