@@ -8,5 +8,7 @@ public interface CustomerService {
 	
 	CustomerVO getProfile(String email);
 	
+	String saveCustomerData(CustomerVO customerVO);
+	
 
 }

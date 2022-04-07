@@ -161,9 +161,30 @@ public class CustomerUIController {
 	public String getProfileData(HttpSession session, Model model) {
 		//get the session data and pick email
 		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
-		CustomerVO customer=customerService.getProfile(loginVO.getUsername());
-		model.addAttribute("customer", customer);
-		return "customer/myAccount";
+		if (loginVO != null) {
+			CustomerVO customer=customerService.getProfile(loginVO.getUsername());
+			model.addAttribute("customer", customer);
+			return "customer/profile";
+		}else {
+			return "customer/login";
+		}
+	}
+	
+	@PostMapping("/customer/account/updateProfile")
+	public String postProfileData(HttpSession session, @ModelAttribute CustomerVO customerVO, Model model) {
+		//get the session data and pick email
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		
+		//checking the user is login or not
+		if (loginVO!=null) {
+			String message=customerService.saveCustomerData(customerVO);
+			model.addAttribute("message", message);
+			model.addAttribute("customer",customerVO);
+			return "/customer/profile";
+		}else {
+			return "customer/login";
+		}
+		
 	}
 
 }

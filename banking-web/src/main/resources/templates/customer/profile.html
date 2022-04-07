@@ -19,9 +19,11 @@
   </header>
    
     <div class="container">
-        <h3>My Account </h3>
+        <h3>My Account Page</h3>
         <br />
-        <span style="color: red;font-size: 18px;" id="message"></span>
+         
+        <span style="color: blue;font-size: 18px;" id="message"; th:utext="${message}"></span>
+        
         <form action="#" method="post"  th:action="@{/customer/account/updateProfile}" th:object="${customer}">
             <table class="table table-bordered" style="width: 100%;font-size: 16px;">
                 <tr>
