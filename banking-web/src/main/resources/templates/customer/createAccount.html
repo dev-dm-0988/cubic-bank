@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>my account page</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+  <header style="background-color: fuchsia;height: 30px;">
+  </header>
+  
+    <div class="container">
+        <h3>My Account Page</h3>
+        <br />
+        <span style="color: red;font-size: 18px;" id="message"></span>
+        
+            <table class="table table-bordered" style="width: 100%;font-size: 16px;" th:object="${account}">
+                <tr>
+                    <td>CustomerId:</td>
+                    <td><input type="text" class="form-control" th:field="*{customerId}" id="customerId"  readonly="readonly"/> </td>
+                    <td>Account Number:</td>
+                    <td>
+                     <input type="text" class="form-control" th:field="*{accountNumber}"  readonly="readonly" />
+                    </td>
+                </tr>
+               <tr>
+                    <td>Branch:</td>
+                    <td><input type="text" class="form-control" th:field="*{branch}" readonly="readonly" /></td>
+                     <td>Account Type:</td>
+                    <td><input type="text" class="form-control" th:field="*{accountType}"/></td>
+                </tr>
+                
+                  <tr>
+                    <td>Available Balance:</td>
+                    <td>
+                    <input type="text" class="form-control" th:field="*{avBalance}" readonly="readonly" />
+                     <td>Total  Balance:</td>
+                    <td>
+                    <input type="text" class="form-control" th:field="*{tavBalance}"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>Currency:</td>
+                    <td>
+                    <input type="text" class="form-control" th:field="*{currency}" readonly="readonly" />
+                     <td>StatusAsOf:</td>
+                    <td>
+                    <input type="text" class="form-control" th:field="*{StatusAsOf}"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                 <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                    <td colspan="2">
+                    <a th:href="@{/customer/dashboard}">
+                    <button type="button" class="btn btn-primary">Go Back</button>
+                    </a>
+                    </td>
+                </tr>
+            </table>
+  </div>
+  
+</body>
+</html>

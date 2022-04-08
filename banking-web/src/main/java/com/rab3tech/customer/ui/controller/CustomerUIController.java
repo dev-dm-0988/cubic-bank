@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.rab3tech.customer.service.CustomerAccountInfoService;
 import com.rab3tech.customer.service.CustomerService;
 import com.rab3tech.customer.service.LoginService;
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
 import com.rab3tech.customer.service.impl.SecurityQuestionService;
 import com.rab3tech.email.service.EmailService;
 import com.rab3tech.vo.ChangePasswordVO;
+import com.rab3tech.vo.CustomerAccountInfoVO;
 import com.rab3tech.vo.CustomerSavingVO;
 import com.rab3tech.vo.CustomerSecurityQueAnsVO;
 import com.rab3tech.vo.CustomerVO;
@@ -53,6 +55,9 @@ public class CustomerUIController {
 	
 	@Autowired
    private LoginService loginService;	
+	
+	@Autowired
+	private CustomerAccountInfoService  customerAccountInfoService;
 	
 	@PostMapping("/customer/changePassword")
 	public String saveCustomerQuestions(@ModelAttribute ChangePasswordVO changePasswordVO, Model model,HttpSession session) {
@@ -186,5 +191,19 @@ public class CustomerUIController {
 		}
 		
 	}
-
+	
+	@GetMapping("/customer/createAccount")
+	public String createAccount(HttpSession session, Model model) {
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		if (loginVO!=null) {
+			String email=loginVO.getUsername();
+			CustomerAccountInfoVO account=customerAccountInfoService.createAccount(email);
+			model.addAttribute("account",account);
+			return "customer/createAccount";
+		}else {
+			return "/customer/login";
+			
+		}
+	}
+	
 }
