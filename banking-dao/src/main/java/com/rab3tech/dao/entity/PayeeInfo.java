@@ -14,14 +14,14 @@ import javax.persistence.Table;
 @Table(name="payee_informations_tbl")
 public class PayeeInfo implements Serializable{
 	private int id;
-	private String payeeAccountNo;
-	private String payeeName;
-	private String payeeNickName;
-	private String customerId;
-	private Timestamp doe;
-	private Timestamp dom;
-	private String remarks;
-	private String status;
+		private String payeeAccountNo;
+		private String payeeName;
+		private String payeeNickName;
+		private String customerId;
+		private Timestamp doe;
+		private Timestamp dom;
+		private String remarks;
+		private String status;
 	private int urn;
 	
 	public String getCustomerId() {

@@ -206,4 +206,14 @@ public class CustomerUIController {
 		}
 	}
 	
+	@GetMapping("/customer/addPayee")
+	public String addPayeeForm(HttpSession session){
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		if (loginVO!=null) {
+			return "/customer/addPayee";
+		}else {
+			return "/customer/login";
+		}
+	}
+	
 }
