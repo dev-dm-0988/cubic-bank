@@ -10,6 +10,8 @@ public interface CustomerAccountInfoRepository extends JpaRepository<CustomerAcc
 	
 	public Optional<CustomerAccountInfo> findByCustomerId(String email);
 	
+	public Optional<CustomerAccountInfo> findByAccountNumber(String payeeAccountNo);
+	
 	
 
 }

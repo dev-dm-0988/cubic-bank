@@ -1,5 +1,6 @@
 package com.rab3tech.customer.ui.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.rab3tech.customer.service.CustomerAccountInfoService;
 import com.rab3tech.customer.service.CustomerService;
 import com.rab3tech.customer.service.LoginService;
+import com.rab3tech.customer.service.PayeeInfoService;
 import com.rab3tech.customer.service.impl.CustomerEnquiryService;
 import com.rab3tech.customer.service.impl.SecurityQuestionService;
 import com.rab3tech.email.service.EmailService;
@@ -27,6 +29,9 @@ import com.rab3tech.vo.CustomerSecurityQueAnsVO;
 import com.rab3tech.vo.CustomerVO;
 import com.rab3tech.vo.EmailVO;
 import com.rab3tech.vo.LoginVO;
+import com.rab3tech.vo.PayeeInfoVO;
+
+
 
 /**
  * 
@@ -58,6 +63,9 @@ public class CustomerUIController {
 	
 	@Autowired
 	private CustomerAccountInfoService  customerAccountInfoService;
+	
+	@Autowired
+	PayeeInfoService payeeInfoService;
 	
 	@PostMapping("/customer/changePassword")
 	public String saveCustomerQuestions(@ModelAttribute ChangePasswordVO changePasswordVO, Model model,HttpSession session) {
@@ -210,10 +218,50 @@ public class CustomerUIController {
 	public String addPayeeForm(HttpSession session){
 		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
 		if (loginVO!=null) {
+			
 			return "/customer/addPayee";
 		}else {
 			return "/customer/login";
 		}
 	}
 	
+	
+	@PostMapping("/customer/account/addPayee")
+	public String addPayee(HttpSession session, @ModelAttribute PayeeInfoVO payeeInfoVO,Model model){
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		if (loginVO!=null) {
+			payeeInfoVO.setCustomerId(loginVO.getUsername());
+			String message=	payeeInfoService.savePayeeInfo(payeeInfoVO);
+			model.addAttribute("message", message);
+			return "/customer/addPayee";
+		}else {
+			return "/customer/login";
+		}
+	}
+	
+	@GetMapping("/customer/account/transferFund")
+	public String displayTransferFund(HttpSession session, Model model){
+		LoginVO loginVO=(LoginVO)session.getAttribute("userSessionVO");
+		if (loginVO!=null) {
+			//get all payees
+			List<PayeeInfoVO> payeeList=payeeInfoService.getAllPayees(loginVO.getUsername());
+			model.addAttribute("payees", payeeList);
+			return "customer/transferFund";
+		}else {
+			return "customer/login";
+		}
+	}
+	
+	/*
+	 * @PostMapping("/customer/account/transferFund") public String
+	 * transferFund(HttpSession session, Model model) { LoginVO
+	 * loginVO=(LoginVO)session.getAttribute("userSessionVO"); if (loginVO!=null) {
+	 * String message="The fund has been transferred successfully.";
+	 * model.addAttribute("message",message ); return "customer/transferFund"; }else
+	 * { return "customer/login"; }
+	 * 
+	 * }
+	 */
+		
+
 }

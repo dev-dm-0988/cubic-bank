@@ -13,6 +13,7 @@ public class PayeeInfoVO {
 	private String remarks;
 	private String status;
 	private int urn;
+	
 	public int getId() {
 		return id;
 	}
